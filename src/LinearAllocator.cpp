@@ -56,6 +56,17 @@ void LinearAllocator::Free(void* ptr) {
     assert(false && "Use Reset() method");
 }
 
+void LinearAllocator::Deallocate()
+{
+    if (m_start_ptr != nullptr)
+    {
+        free(m_start_ptr);  // 这将释放从系统请求的内存
+        m_start_ptr = nullptr;
+        m_offset = 0;
+        m_totalSize = 0;
+    }
+}
+
 void LinearAllocator::Reset() {
     m_offset = 0;
     m_used = 0;
