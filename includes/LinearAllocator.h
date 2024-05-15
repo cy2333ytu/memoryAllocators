@@ -13,11 +13,13 @@ public:
 	virtual ~LinearAllocator();
 
 	virtual void* Allocate(const std::size_t size, const std::size_t alignment = 0) override;
-	
+
+	void Deallocate();
+
 	virtual void Free(void* ptr) override;
 
 	virtual void Init() override;
-
+LinearAllocator::Deallocate()
 	virtual void Reset();
 private:
 	LinearAllocator(LinearAllocator &linearAllocator);
