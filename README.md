@@ -308,10 +308,6 @@ In the next chart we can see that if we don't include the Init() function in the
 
 _Note: The time complexity (in general) scales following a linear fashion regarding the size of the allocation request.
 
-## Space complexity
-As we can see, even that the space complexity for each allocator is slightly different(due to constants), in the end, all of them have the same space complexity **O(N)**. It is very clear, then, why when denoting big O, constants can be ignored: because its weight in the overall equation is very low when N grows.
-
-![Space complexity of different allocators](./docs/images/operations_over_space.png)
 
 # Summary
 This is a brief summary describing when you should use each allocator. From more restrictive and efficient allocators to less efficient and general.
