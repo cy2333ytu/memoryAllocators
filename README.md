@@ -145,8 +145,6 @@ _复杂度: **O(N)**_ 其中 N 是空闲块的数量
 ![不包括 Init() 函数的基准测试](./docs/images/operations_over_time_no_init.png)
 
 
-![不同分配器的空间复杂度](./docs/images/operations_over_space.png)
-
 # 总结
 这是一个简要的总结，描述了何时应该使用每种分配器。从限制性更强、效率更高的分配器到效率较低、更通用的分配器。
 
