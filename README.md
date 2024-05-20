@@ -125,7 +125,7 @@ _复杂度: **O(N)**_ 其中 N 是空闲块的数量
 _复杂度: **O(N)**_ 其中 N 是空闲块的数量
 
 # 基准测试
-我进行了几种不同的基准测试，包括不同的区块大小、操作数量、随机顺序等。时间基准测试度量了从初始化分配器（'Init()'，分配大块内存，设置额外的数据结构...）到执行最后一次操作（分配或释放）所需的执行时间。
+我进行了几种不同的基准测试，包括不同的区块大小、操作数量、随机顺序等。时间基准测试度量了从初始化分配器（分配大块内存，设置额外的数据结构...）到执行最后一次操作（分配或释放）所需的执行时间。
 
 在这里，我只展示与本项目目标相关的部分。
 
@@ -136,13 +136,9 @@ _复杂度: **O(N)**_ 其中 N 是空闲块的数量
 接下来的分配器表现得更好，但它们不再是通用分配器。它们**对使用方式有限制**：
 * **池分配器** 强制我们总是分配相同大小的内存块，但我们可以按任何顺序分配和释放。这个分配器的复杂度比自由列表分配器略好，等等，池分配器的复杂度应该是常数而不是线性的！确实如此。这里发生的情况是，附加数据结构（链表）的初始化是 _**O(n)**_。它必须在链表中创建所有内存块并将它们链接起来。这个操作掩盖了分配和释放操作的真实复杂度，即 _**O(1)**_。因此，在评估池分配器（以及所有分配器）时，要考虑到初始化过程，以避免这种行为。
 * **栈分配器** 可以分配任何大小的内存，但释放必须按照后进先出（LIFO）的顺序进行，复杂度为 _**O(1)**_。图表中的复杂度并不完全恒定，这是由于初始化函数必须分配第一个大块内存，就像池分配器一样。
-* **线性分配器** 是最简单也是性能最好的分配器，复杂度为 _**O(1)**_，但它也是最有限制性的，因为不允许单个释放操作。与栈分配器一样，复杂度看起来并不完全恒定，这是由于初始化函数。
+* **线性分配器** 是最简单也是性能最好的分配器，复杂度为 _**O(1)**_，但它也是最有限制性的，因为不允许单个释放操作。
 
 ![不同分配器的时间复杂度](./docs/images/operations_over_time.png)
-
-在下一个图表中，我们可以看到如果我们不包括 Init() 函数在基准测试中，总的执行时间会减少，因此我们可以有效地看到线性、栈和池分配器是常数的，而 malloc 和自由列表分配器显然是线性的。
-
-![不包括 Init() 函数的基准测试](./docs/images/operations_over_time_no_init.png)
 
 
 # 总结
@@ -298,15 +294,9 @@ Here I'm only showing what I believe is relevant for the goal of this project.
 The next allocator are even better BUT they are no longer general purpose allocators. They **impose restrictions** in how we can use them:
 * **Pool allocator** forces us to always allocate the same size but then we can allocate and deallocate in any order. The complexity of this one is slightly better than the free list allocator, wait what? The complexity of the pool allocator was supposed to be constant not linear! And that's true. What its happening here is that the initialization of the additional data structure (the linked list) is _**O(n)**_. It has to create all memory chunks in then linked them in the linked list. This operation is hiding the truly complexity of the allocation and free operations that is _**O(1)**_.  So, take into account to initialize the Pool allocator (and all the allocators in general) before to avoid this kind of behaviors.
 * **Stack allocator** can allocate any size, but deallocations must be done in a LIFO fashion with a _**O(1)**_ complexity. In the chart the complexity is not completely constant due to init function that has to allocate the first big chunk of memory, similarly as before in the pool allocator.
-* **Linear allocator** is the simplest and the best performant allocator with a _**O(1)**_ complexity but its also the most restrictive because single free operations are not allowed. As with the stack, the complexity doesn't look completely constant due to the init function.
+* **Linear allocator** is the simplest and the best performant allocator with a _**O(1)**_ complexity but its also the most restrictive because single free operations are not allowed. 
 
 ![Time complexity of different allocators](./docs/images/operations_over_time.png)
-
-In the next chart we can see that if we don't include the Init() function in the benchmark, the overall execution time is reduced and as a consequence we can effectively see that the Linear, Stack and Pool allocators are constant while malloc and free list are clearly linear. The free list implementation using black tree can reduce the complexity to _**O(log n)**_ and therefore its position in the chart would be between the pool allocator and the free list.
-
-![Time complexity of different allocators](./docs/images/operations_over_time_no_init.png)
-
-_Note: The time complexity (in general) scales following a linear fashion regarding the size of the allocation request.
 
 
 # Summary
